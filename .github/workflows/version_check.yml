@@ -1,0 +1,28 @@
+name: "connect version check"
+on:
+  pull_request:
+    branches:
+      - v8
+jobs:
+    version_commit_check:
+      name: Check connect version commit message
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - run: |
+            LAST_COMMIT=$(git log -1 --pretty=%B)
+            VERSION=$(jq -r .version package.json)
+            [[ "$LAST_COMMIT" == "version $VERSION" ]]
+
+    version_bump_check:
+      name: Check connect version bump
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v2
+        - run: |
+            npm install
+            npm i compare-versions
+            REMOTE_VERSION=$(npm show trezor-connect version)
+            LOCAL_VERSION=$(jq -r .version package.json)
+            node scripts/ci-compare-version.js $LOCAL_VERSION $REMOTE_VERSION
