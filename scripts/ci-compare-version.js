@@ -1,6 +1,6 @@
-var compareVersions = require('compare-versions');
+const compareVersions = require('compare-versions');
 if (compareVersions.compare(process.argv[2], process.argv[3], '>')) {
     process.exit(0);
 }
-console.log ('The version is lower than npm registry version.')
+console.log ('trezor-connect package.json version is the same or lower than the npm registry version.')
 process.exit(1);
