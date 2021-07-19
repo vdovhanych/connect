@@ -21,8 +21,7 @@ jobs:
         - uses: actions/checkout@v2
         - uses: actions/setup-node@v2
         - run: |
-            npm install
-            npm i compare-versions
+            yarn install
             REMOTE_VERSION=$(npm show trezor-connect version)
             LOCAL_VERSION=$(jq -r .version package.json)
             node scripts/ci-compare-version.js $LOCAL_VERSION $REMOTE_VERSION
